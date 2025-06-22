@@ -4,7 +4,10 @@ import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
-export default function page() {
+
+export default async function page() {
+  const data = await fetch("https://api.vercel.app/blog");
+  const posts = await data.json();
   return (
     <div className="items-center justify-items-center min-h-screen">
       <div className="py-8 space-y-2">
@@ -12,13 +15,13 @@ export default function page() {
         <Input />
       </div>
 
-      <ScrollArea className="h-full w-1/2 rounded-md border p-4">
-        Jokester began sneaking into the castle in the middle of the night and
-        leaving jokes all over the place: under the king's pillow, in his soup,
-        even in the royal toilet. The king was furious, but he couldn't seem to
-        stop Jokester. And then, one day, the people of the kingdom discovered
-        that the jokes left by Jokester were so funny that they couldn't help
-        but laugh. And once they started laughing, they couldn't stop.
+      <ScrollArea className="h-full w-1/2 rounded-md border p-4 overflow-auto">
+        {posts.map((post: { id: number; title: string;content:string }) => (
+          <div className="flex space-x-4 min-w-[1200px]" key={post.id}>
+            <h4 className="font-semibold" >{post.title}</h4>
+            <p>{post.content}</p>
+          </div>
+        ))}
       </ScrollArea>
       <Link href={"../"}>
         <Button>Return to home</Button>
