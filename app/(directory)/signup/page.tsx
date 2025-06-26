@@ -9,18 +9,18 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 export default function Page() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const[user,setUser] =useState(null)
+  // const[user,setUser] =useState(null)
 
 
   const signUp=()=>{
     createUserWithEmailAndPassword(auth,email,password)
     .then((userCredential)=>{
-        setUser(userCredential.user)
+        // setUser(userCredential.user)
         console.log("user signed up: ", userCredential.user);
     }).catch((error)=>{
         console.log("error signing up: ",error);
     })
-            console.log(user);
+            // console.log(user);
 
   }
 

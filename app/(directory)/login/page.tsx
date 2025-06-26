@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 export default function Page() {
     const[email,setEmail] =useState('')
     const[password,setPassword] =useState('')
-    const[user,setUser] =useState(null)
+    // const[_user,setUser] =useState(null)
     const router = useRouter()
 
     useEffect(() => {
@@ -26,9 +26,9 @@ export default function Page() {
     const signIn =()=>{
         signInWithEmailAndPassword(auth,email,password)
         .then((userCredential)=>{
-            setUser(userCredential.user)
+            // setUser(userCredential.user)
             console.log("logged in as: ",userCredential.user);
-            console.log(user);
+            // console.log(user);
 
         })
     }
