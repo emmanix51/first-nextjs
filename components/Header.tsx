@@ -4,9 +4,10 @@ import { useEffect, useState } from "react";
 import { auth } from "@/app/firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { usePathname } from "next/navigation";
+import type { User } from "firebase/auth";
 
 function Header() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<User | null>(null);
   const pathname = usePathname();
 
   useEffect(() => {
