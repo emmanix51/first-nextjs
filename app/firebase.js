@@ -1,5 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
+import {collection} from "firebase/firestore";
+import { getDocs } from "firebase/firestore";
 
 
 const firebaseConfig = {
@@ -13,3 +15,24 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+
+const blogPostCollectionRef = collection(db,'blogpost');
+
+const testCollectionConnection = async () => {
+  try {
+    const querySnapshot = await getDocs(blogPostCollectionRef);
+    querySnapshot.forEach((doc) => {
+      console.log(`Document ID: ${doc.id}, Data:`, doc.data());
+    });
+
+    if (querySnapshot.empty) {
+      console.log("Collection exists but has no documents.");
+    } else {
+      console.log("Collection read successfully.");
+    }
+  } catch (error) {
+    console.error("Error reading collection:", error);
+  }
+};
+
+testCollectionConnection();

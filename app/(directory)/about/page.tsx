@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import React from "react";
+// import TestFirestore from "@/components/TestFirestore";
 
 export default function page() {
   return (
@@ -29,6 +30,8 @@ export default function page() {
       <Link href={"../"}>
         <Button>Return to home</Button>
       </Link>
+
+      {/* <TestFirestore /> */}
     </div>
   );
 }
