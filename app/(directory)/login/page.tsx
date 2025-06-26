@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import React, { useState,useEffect } from "react";
-import {db,app,auth} from "../../firebase"
+import {auth} from "../../firebase"
 import { signInWithEmailAndPassword,onAuthStateChanged } from "firebase/auth";
 import { useRouter } from "next/navigation";
 
@@ -28,7 +28,8 @@ export default function Page() {
         .then((userCredential)=>{
             setUser(userCredential.user)
             console.log("logged in as: ",userCredential.user);
-            
+            console.log(user);
+
         })
     }
 

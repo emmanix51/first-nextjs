@@ -20,6 +20,8 @@ export default function Page() {
     }).catch((error)=>{
         console.log("error signing up: ",error);
     })
+            console.log(user);
+
   }
 
   return (
