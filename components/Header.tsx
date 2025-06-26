@@ -3,9 +3,11 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { auth } from "@/app/firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
+import { usePathname } from "next/navigation";
 
 function Header() {
   const [user, setUser] = useState(null);
+  const pathname = usePathname();
 
   useEffect(() => {
     const loggedIn = onAuthStateChanged(auth, (currentUser) => {
@@ -45,6 +47,10 @@ function Header() {
           >
             Sign Out
           </button>
+        ) : pathname === "/signup" ? (
+          <Link className="text-white" href="/login">
+            Login
+          </Link>
         ) : (
           <Link className="text-white" href="/signup">
             Sign Up

@@ -2,14 +2,26 @@
 
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import {db,app,auth} from "../../firebase"
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword,onAuthStateChanged } from "firebase/auth";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
     const[email,setEmail] =useState('')
     const[password,setPassword] =useState('')
     const[user,setUser] =useState(null)
+    const router = useRouter()
+
+    useEffect(() => {
+        const loggedIn = onAuthStateChanged(auth, (currentUser) => {
+          if (currentUser){
+            router.replace('/')
+          }
+        });
+    
+        return () => loggedIn();
+      },[router]);
 
     const signIn =()=>{
         signInWithEmailAndPassword(auth,email,password)
@@ -57,7 +69,7 @@ export default function Page() {
               className="text-white bg-slate-900 font-medium hover:bg-slate-800 tracking-wide text-sm px-4 py-2.5 w-full border-0 outline-0 cursor-pointer"
               onClick={signIn}
             >
-              Send message
+              Login
             </button>
           </form>
         </div>
