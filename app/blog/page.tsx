@@ -5,11 +5,13 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Navbar from "../../components/Navbar";
 import Blogcard from "@/components/Blogcard";
+import BlogForm from "@/components/BlogForm";
 
 
 export default async function page() {
   const data = await fetch("https://api.vercel.app/blog");
   const posts = await data.json();
+  
   return (
     <div className="items-center justify-items-center min-h-screen">
       <div className="py-8 space-y-2">
@@ -17,6 +19,11 @@ export default async function page() {
         <Input />
         <Navbar/>
       </div>
+
+
+        
+        <BlogForm/>
+    
 
       <ScrollArea className="h-full w-1/2 rounded-md border p-4 overflow-auto">
         {posts.map((post: { id: number; title: string;content:string }) => (

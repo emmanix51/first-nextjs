@@ -21,6 +21,9 @@ export default function Home() {
                 <Link href={"/blog"}>
                 <Button>Click to go to blog page</Button>
                 </Link>
+                <Link href={"/login"}>
+                <Button>Click here to login</Button>
+                </Link>
               </div>
             </div>
           </div>

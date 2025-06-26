@@ -2,6 +2,7 @@ import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import {collection} from "firebase/firestore";
 import { getDocs } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 
 
 const firebaseConfig = {
@@ -15,6 +16,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const auth = getAuth(app)
 
 const blogPostCollectionRef = collection(db,'blogpost');
 
@@ -36,3 +38,5 @@ const testCollectionConnection = async () => {
 };
 
 testCollectionConnection();
+
+export{db,app,auth}
