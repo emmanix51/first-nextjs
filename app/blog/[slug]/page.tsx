@@ -10,10 +10,13 @@ interface BlogPost {
   author: string;
 }
 
-export async function generateMetadata(
-  { params }: { params: { slug: string } }
-): Promise<Metadata> {
-  const docRef = doc(db, "blogs", params.slug);
+// ✅ generateMetadata using destructured slug
+export async function generateMetadata({
+  params: { slug },
+}: {
+  params: { slug: string };
+}): Promise<Metadata> {
+  const docRef = doc(db, "blogs", slug);
   const docSnap = await getDoc(docRef);
 
   if (!docSnap.exists()) return {};
@@ -26,11 +29,13 @@ export async function generateMetadata(
   };
 }
 
-// ✅ Keep it consistent for the Page function too
-export default async function Page(
-  { params }: { params: { slug: string } }
-) {
-  const docRef = doc(db, "blogs", params.slug);
+// ✅ Page component using destructured slug
+export default async function Page({
+  params: { slug },
+}: {
+  params: { slug: string };
+}) {
+  const docRef = doc(db, "blogs", slug);
   const docSnap = await getDoc(docRef);
 
   if (!docSnap.exists()) return notFound();
