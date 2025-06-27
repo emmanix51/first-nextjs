@@ -4,7 +4,13 @@ import React, { useState } from 'react';
 import { db } from "../app/firebase"; // adjust the path if needed
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
-export default function BlogForm() {
+
+
+interface BlogFormProps{
+  onPostCreated?:()=>void;
+}
+
+export default function BlogForm({onPostCreated}: BlogFormProps) {
   const [author, setAuthor] = useState('');
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -33,6 +39,7 @@ export default function BlogForm() {
       setAuthor('');
       setTitle('');
       setContent('');
+      onPostCreated?.();
     } catch (e) {
       console.error("Error adding document: ", e);
       alert("Failed to save blog post.");

@@ -64,11 +64,12 @@ export default function Page() {
             </button>
           </form>
         </div>
-      </div>
-
-      <Link href={"../"}>
+         <Link href={"../"}>
         <Button>Return to home</Button>
       </Link>
+      </div>
+
+     
     </div>
   );
 }
