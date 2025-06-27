@@ -2,7 +2,6 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/app/firebase";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
-// import type { PageProps } from "next"; 
 
 interface BlogPost {
   id: string;
@@ -11,14 +10,10 @@ interface BlogPost {
   author: string;
 }
 
-type PageProps = {
-  params: {
-    slug: string;
-  };
-};
-
-export async function generateMetadata({ params }:  PageProps ): Promise<Metadata> {
-  const  docRef = doc(db, "blogs", params.slug);
+export async function generateMetadata(
+  { params }: { params: { slug: string } }
+): Promise<Metadata> {
+  const docRef = doc(db, "blogs", params.slug);
   const docSnap = await getDoc(docRef);
 
   if (!docSnap.exists()) return {};
@@ -31,7 +26,10 @@ export async function generateMetadata({ params }:  PageProps ): Promise<Metadat
   };
 }
 
-export default async function Page({ params }: { params: { slug: string } }) {
+// ✅ Keep it consistent for the Page function too
+export default async function Page(
+  { params }: { params: { slug: string } }
+) {
   const docRef = doc(db, "blogs", params.slug);
   const docSnap = await getDoc(docRef);
 
