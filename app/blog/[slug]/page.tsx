@@ -2,7 +2,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/app/firebase";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
-import type { PageProps } from "next"; 
+// import type { PageProps } from "next"; 
 
 interface BlogPost {
   id: string;
@@ -11,7 +11,13 @@ interface BlogPost {
   author: string;
 }
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+type PageProps = {
+  params: {
+    slug: string;
+  };
+};
+
+export async function generateMetadata({ params }:  PageProps ): Promise<Metadata> {
   const  docRef = doc(db, "blogs", params.slug);
   const docSnap = await getDoc(docRef);
 
