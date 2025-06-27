@@ -2,6 +2,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/app/firebase";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
+import type { PageProps } from "next"; 
 
 interface BlogPost {
   id: string;
