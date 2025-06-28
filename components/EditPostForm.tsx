@@ -1,38 +1,65 @@
-import React from 'react'
-import { updateDoc,doc } from 'firebase/firestore'
+import React, { useState } from 'react';
 
-export default function EditPostForm() {
+interface BlogPost {
+  title: string;
+  content: string;
+  author: string;
+  publishedAt: string;
+}
+
+export default function EditPostForm({
+  post,
+  onSubmit,
+}: {
+  post: BlogPost;
+  onSubmit: (data: BlogPost) => void;
+}) {
+  const [formData, setFormData] = useState<BlogPost>(post);
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onSubmit(formData);
+  };
+
   return (
-    <div>EDIT FORM</div>
-    // <div className='p-4 border my-4'>
-    //   <h2 className="text-xl mb-2">Create own post</h2>
-    //   <input
-    //     type="text"
-    //     placeholder='Author'
-    //     value={author}
-    //     onChange={(e) => setAuthor(e.target.value)}
-    //     className="block mb-2 p-2 border w-full"
-    //   />
-    //   <input
-    //     type="text"
-    //     placeholder='Title'
-    //     value={title}
-    //     onChange={(e) => setTitle(e.target.value)}
-    //     className="block mb-2 p-2 border w-full"
-    //   />
-    //   <textarea
-    //     placeholder='Content'
-    //     value={content}
-    //     onChange={(e) => setContent(e.target.value)}
-    //     className="block mb-2 p-2 border w-full h-32"
-    //   />
-    //   <button
-    //     onClick={handleSave}
-    //     disabled={loading}
-    //     className="bg-slate-900 text-white px-4 py-2 rounded hover:bg-slate-800 disabled:opacity-50"
-    //   >
-    //     {loading ? "Saving..." : "Save"}
-    //   </button>
-    // </div>
-  )
+    <div className='mx-auto border px-4 py-2'>
+      <form onSubmit={handleSubmit} className='flex gap-2 mx-auto justify-center text-center items-center'>
+      <label htmlFor="title">Title</label>
+      <input
+        name="title"
+        value={formData.title}
+        onChange={handleChange}
+        placeholder="Title"
+        className='border'
+      />
+      <label htmlFor="author">Author</label>
+      <input
+        name="author"
+        value={formData.author}
+        onChange={handleChange}
+        placeholder="Author"
+        className='border'
+
+      />
+      <label htmlFor="content">Content</label>
+      <textarea
+        name="content"
+        value={formData.content}
+        onChange={handleChange}
+        placeholder="Content"
+        className='border'
+
+      />
+      <button type="submit" className='border-2 p-2' >Save Changes</button>
+    </form>
+    </div>
+    
+  );
 }

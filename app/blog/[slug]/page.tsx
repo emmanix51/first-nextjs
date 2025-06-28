@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
-import { getDoc, doc } from 'firebase/firestore';
-import { db } from '../../firebase'; // Adjust path to your firebase config
-
+import React, { useEffect, useState } from "react";
+import { redirect, useParams } from "next/navigation";
+import { getDoc, doc, updateDoc, deleteDoc } from "firebase/firestore";
+import { db } from "../../firebase"; // adjust if needed
+import EditPostForm from "@/components/EditPostForm";
 
 interface BlogPost {
   title: string;
@@ -15,14 +15,19 @@ interface BlogPost {
 
 export default function Page() {
   const params = useParams();
-  const slug = params.slug;
+  const slug = params.slug as string;
 
-  const [docData, setDocData] = useState<BlogPost|null>(null);
+  const [docData, setDocData] = useState<BlogPost | null>(null);
+
+  const deletePost = async(id:string)=>{
+      await deleteDoc(doc(db,"blogs",id));
+      redirect("/blog")
+    }
 
   useEffect(() => {
     async function fetchDoc(slug: string) {
       try {
-        const docRef = doc(db, "blogs", slug); // Using slug instead of "SF"
+        const docRef = doc(db, "blogs", slug);
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
           setDocData(docSnap.data() as BlogPost);
@@ -34,15 +39,49 @@ export default function Page() {
       }
     }
 
-    if (typeof slug === "string") {
-      fetchDoc(slug);
-    }
+    if (slug) fetchDoc(slug);
   }, [slug]);
+
+  const handleUpdate = async (updatedData: BlogPost) => {
+    try {
+      const docRef = doc(db, "blogs", slug);
+      await updateDoc(docRef, updatedData as Partial<BlogPost>);
+      alert("Post updated successfully!");
+      setDocData((prev) => ({ ...prev!, ...updatedData }));
+    } catch (error) {
+      console.error("Error updating doc:", error);
+      alert("Failed to update post.");
+    }
+  };
 
   return (
     <div>
-      <h1>Slug: {slug}</h1>
-      <pre>{docData ? JSON.stringify(docData, null, 2) : "Loading..."}</pre>
+      {docData ? (
+        <>
+          <EditPostForm post={docData} onSubmit={handleUpdate} />
+          <div
+            className="w-1/2 h-screen mx-auto flex space-x-4 justify-between items-center"
+            key={slug}
+          >
+            <div >
+              <h4 className="font-semibold text-red-700">{docData.title}: </h4>
+              <p>{docData.content}</p>
+              <small>Written by: {docData.author}</small>
+            </div>
+
+            <div className="flex gap-4">
+              <button
+                className="bg-red-700 text-white px-4 cursor-pointer rounded"
+                onClick={() => deletePost(slug)}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </>
+      ) : (
+        "Loading..."
+      )}
     </div>
   );
 }
